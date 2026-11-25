@@ -1,0 +1,165 @@
+---
+import Base from '../layouts/Base.astro';
+import { DOCUMENTS } from '../lib/analyze.js';
+import { SCHENGEN_COUNTRIES } from '../lib/rules.js';
+---
+<Base title="Check my visa application">
+  <form id="visa-form" class="card form" novalidate>
+    <h1 class="form-title">Check your Schengen application</h1>
+    <p class="muted intro">Nothing is uploaded or sent anywhere. Your answers stay in this browser.</p>
+
+    <fieldset>
+      <legend>Your trip</legend>
+      <label class="field">Country where you’ll spend the most nights
+        <span class="hint">If nights are equal, choose the country you enter first. You apply to this country.</span>
+        <select name="destination" required>
+          <option value="">Choose a country</option>
+          {SCHENGEN_COUNTRIES.map((c) => <option value={c}>{c}</option>)}
+        </select>
+      </label>
+      <div class="two">
+        <label class="field">Departure date<input type="date" name="departDate" required /></label>
+        <label class="field">Return date<input type="date" name="returnDate" required /></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Your passport</legend>
+      <div class="three">
+        <label class="field">Date of issue<input type="date" name="issued" /></label>
+        <label class="field">Date of expiry<input type="date" name="expires" /></label>
+        <label class="field">Blank pages<input type="number" name="blankPages" min="0" max="60" placeholder="e.g. 8" /></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>About you</legend>
+      <div class="two">
+        <label class="field">Work status
+          <select name="employment">
+            <option value="salaried">Salaried employee</option>
+            <option value="self">Self-employed / business owner</option>
+            <option value="student">Student</option>
+            <option value="retired">Retired</option>
+            <option value="unemployed">Not working / homemaker</option>
+          </select>
+        </label>
+        <label class="field">Travel history
+          <select name="history">
+            <option value="">Choose one</option>
+            <option value="schengen">I’ve had a Schengen visa before</option>
+            <option value="major">I’ve visited the US, UK, Canada or Australia</option>
+            <option value="other">I’ve travelled abroad to other countries</option>
+            <option value="none">This is my first international trip</option>
+          </select>
+        </label>
+      </div>
+      <label class="check-inline"><input type="checkbox" name="refused" /> I have been refused a visa before</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Money</legend>
+      <div class="two">
+        <label class="field">Bank balance today (₹)
+          <span class="hint">The account whose statements you will submit.</span>
+          <input type="number" name="balance" min="0" step="1000" placeholder="e.g. 350000" />
+        </label>
+        <label class="field">Estimated trip cost (₹)
+          <span class="hint">Flights, stays, food and travel inside Europe.</span>
+          <input type="number" name="budget" min="0" step="1000" placeholder="e.g. 200000" />
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Your documents</legend>
+      <p class="hint">Mark each one. The list changes with your work status.</p>
+      {DOCUMENTS.map((d) => (
+        <div class="doc" data-who={d.who} role="radiogroup" aria-label={d.label}>
+          <p class="doc-label">{d.label}</p>
+          <div class="opts">
+            <label class="pill"><input type="radio" name={`doc_${d.id}`} value="yes" /><span>Ready</span></label>
+            <label class="pill"><input type="radio" name={`doc_${d.id}`} value="partly" /><span>In progress</span></label>
+            <label class="pill"><input type="radio" name={`doc_${d.id}`} value="no" /><span>Not yet</span></label>
+          </div>
+        </div>
+      ))}
+    </fieldset>
+
+    <p id="form-error" class="error" role="alert" hidden></p>
+    <button type="submit" class="btn big" id="submit-btn">Check my application</button>
+  </form>
+
+  <section id="results" class="results" hidden aria-live="polite"></section>
+</Base>
+
+<style>
+  .form { max-width: 720px; margin: 0 auto; }
+  .form-title { font-size: 1.6rem; margin: 4px 0 4px; }
+  .intro { margin: 0 0 8px; }
+  fieldset { border: 0; border-top: 1px solid var(--border); margin: 10px 0 0; padding: 18px 0 4px; min-width: 0; }
+  legend { font-weight: 700; font-size: 1.1rem; padding: 0; }
+  .hint { color: var(--muted); font-size: .9rem; margin: 2px 0 12px; }
+  .two, .three { display: grid; gap: 0 16px; align-items: end; }
+  .two { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .three { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .check-inline { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-weight: 500; }
+  .doc { padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  .doc[hidden] { display: none; }
+  .doc-label { margin: 0 0 8px; font-weight: 550; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { cursor: pointer; }
+  .pill input { position: absolute; opacity: 0; pointer-events: none; }
+  .pill span { display: block; border: 1px solid var(--border); background: var(--surface); padding: 6px 12px; border-radius: 10px; font-size: .9rem; }
+  .pill input:checked + span { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+  .pill input:focus-visible + span { outline: 3px solid var(--accent-soft); }
+  .btn.big { width: 100%; padding: 15px; font-size: 1.05rem; margin-top: 14px; }
+  .error { color: var(--fail); background: var(--fail-soft); padding: 10px 14px; border-radius: 10px; }
+</style>
+
+<style is:global>
+  .results { max-width: 720px; margin: 0 auto; display: grid; gap: 16px; }
+  .top { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .score .big { font-size: 2.6rem; font-weight: 800; line-height: 1; margin: 6px 0; }
+  .score h3, .apply h3 { font-size: .95rem; color: var(--muted); margin: 0; font-weight: 600; }
+  .apply .country { font-size: 1.6rem; font-weight: 800; margin: 6px 0 4px; }
+  .bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px 0; }
+  .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+  .bar.warn > i { background: var(--warn); } .bar.fail > i { background: var(--fail); }
+  .alert { border: 1px solid var(--fail); background: var(--fail-soft); border-radius: 12px; padding: 14px 16px; }
+  .alert h3 { margin: 0 0 6px; color: var(--fail); }
+  .alert ul { margin: 0; padding-left: 20px; }
+  .delta { background: var(--accent-soft); border-radius: 12px; padding: 12px 16px; font-weight: 600; }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 104px 1fr auto; gap: 12px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .tl li:last-child { border-bottom: 0; }
+  .tl .d { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tl .left { font-size: .85rem; color: var(--muted); white-space: nowrap; }
+  .tl li.past { opacity: .55; }
+  .tl li.next { background: var(--accent-soft); margin: 0 -10px; padding: 9px 10px; border-radius: 8px; }
+  .fix-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .fix { border: 1px solid var(--border); border-left: 5px solid var(--fail); border-radius: 12px; padding: 12px 14px; }
+  .fix.warn { border-left-color: var(--warn); }
+  .fix h4 { margin: 0 0 4px; font-size: 1rem; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .fix p { margin: 3px 0; }
+  .chip { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: .03em; }
+  .chip.fail { background: var(--fail-soft); color: var(--fail); } .chip.warn { background: var(--warn-soft); color: var(--warn); }
+  .chip.pass { background: var(--pass-soft); color: var(--pass); } .chip.unknown { background: var(--surface-2); color: var(--muted); }
+  .src { font-size: .8rem; color: var(--muted); }
+  .src a { color: var(--muted); }
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .checklist li { display: flex; gap: 10px; align-items: baseline; }
+  .checklist .box { flex: none; width: 20px; text-align: center; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .note { font-size: .85rem; color: var(--muted); }
+  @media print {
+    .site-header, .site-footer, #visa-form, .actions { display: none !important; }
+    .results { display: grid !important; }
+    .card { box-shadow: none; }
+  }
+</style>
+
+<script>
+  import { initVisaCheck } from '../scripts/check.js';
+  initVisaCheck();
+</script>

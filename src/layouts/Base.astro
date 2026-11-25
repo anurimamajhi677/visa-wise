@@ -1,0 +1,90 @@
+---
+const { title = 'VisaReady', description = 'Free Schengen visa readiness check for Indian travellers: document checklist, red flags and your application timeline.' } = Astro.props;
+const pageTitle = title === 'VisaReady' ? title : `${title} · VisaReady`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap row">
+        <a href="/" class="logo"><span class="dot" aria-hidden="true"></span>VisaReady</a>
+        <nav><a href="/check">Check my visa</a></nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>VisaReady is a free, independent guide. It is not affiliated with any embassy, consulate, visa centre or government. Rules are based on official public sources, shown next to each check; consulates may ask for more. It cannot guarantee a visa.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f7f8f6; --surface: #ffffff; --surface-2: #f0f2ee; --text: #17201b; --muted: #5b665f;
+    --border: #dfe4dd; --accent: #1d4ed8; --accent-ink: #ffffff; --accent-soft: #dbe6fe;
+    --warn: #a16207; --warn-soft: #fdf2d3; --fail: #b42318; --fail-soft: #fde4e1; --pass: #15803d; --pass-soft: #dcf3e3;
+    --radius: 14px; --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 4px 16px rgb(0 0 0 / .04);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1411; --surface: #171e19; --surface-2: #1e2721; --text: #e7ece8; --muted: #9aa69e;
+      --border: #2a352e; --accent: #7aa2ff; --accent-ink: #0a1638; --accent-soft: #1a2a52;
+      --warn: #fbbf24; --warn-soft: #3a2e0d; --fail: #f87171; --fail-soft: #3f1715; --pass: #4ade80; --pass-soft: #163b24;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1411; --surface: #171e19; --surface-2: #1e2721; --text: #e7ece8; --muted: #9aa69e;
+    --border: #2a352e; --accent: #7aa2ff; --accent-ink: #0a1638; --accent-soft: #1a2a52;
+    --warn: #fbbf24; --warn-soft: #3a2e0d; --fail: #f87171; --fail-soft: #3f1715; --pass: #4ade80; --pass-soft: #163b24;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  }
+  a { color: var(--accent); }
+  h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; }
+  h1 { font-size: clamp(1.8rem, 5vw, 2.7rem); letter-spacing: -.02em; }
+  h2 { font-size: 1.35rem; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .site-header { border-bottom: 1px solid var(--border); background: var(--surface); }
+  .site-header .row { height: 60px; }
+  .site-header nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: .95rem; }
+  .logo { font-weight: 750; font-size: 1.15rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+  .logo .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+  main.wrap { padding-top: 32px; padding-bottom: 48px; }
+  .site-footer { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; padding: 20px 0 32px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+  .muted { color: var(--muted); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer;
+    background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 650;
+    padding: 12px 20px; border-radius: 10px; text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.07); }
+  .btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+  .btn:disabled { opacity: .6; cursor: progress; }
+  input[type=text], input[type=url], input[type=number], input[type=date], select {
+    width: 100%; font: inherit; color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px;
+  }
+  input:focus-visible, select:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 1px; border-color: var(--accent); }
+  label.field { display: block; font-weight: 600; margin-bottom: 14px; }
+  label.field > span.hint { display: block; font-weight: 400; color: var(--muted); font-size: .88rem; margin: 2px 0 6px; }
+</style>
