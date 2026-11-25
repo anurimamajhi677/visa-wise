@@ -3,25 +3,27 @@ import Base from '../layouts/Base.astro';
 ---
 <Base>
   <section class="hero">
-    <p class="eyebrow">Schengen tourist visa · for Indian passport holders</p>
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+    <p class="eyebrow">✈️ Schengen tourist visa · for Indian passport holders</p>
     <h1>Is your Schengen visa application ready?</h1>
     <p class="lead">Answer a few questions about your trip, passport and documents. Get a readiness score, the red flags to fix, your personal document checklist and the dates you must not miss.</p>
-    <a class="btn big" href="/check">Check my application →</a>
-    <p class="muted small">Free · about 3 minutes · no sign-up · nothing uploaded</p>
+    <a class="cta" href="/check">Check my application →</a>
+    <p class="small">Free · about 3 minutes · no sign-up · nothing uploaded</p>
   </section>
 
   <section class="grid">
-    <div class="card">
+    <div class="card feature pink">
       <span class="icon" aria-hidden="true">🛂</span>
       <h2>Red flags first</h2>
       <p class="muted">Passport expiring too soon, too few blank pages, applying too late, a trip over 90 days: the problems that get applications refused.</p>
     </div>
-    <div class="card">
+    <div class="card feature cyan">
       <span class="icon" aria-hidden="true">📋</span>
       <h2>Your own checklist</h2>
       <p class="muted">Salaried, self-employed, student or retired: see exactly which documents you need, and tick them off as you go.</p>
     </div>
-    <div class="card">
+    <div class="card feature amber">
       <span class="icon" aria-hidden="true">📅</span>
       <h2>Your timeline</h2>
       <p class="muted">The earliest and latest days to apply, when to book your appointment and when to get fresh bank statements.</p>
@@ -30,27 +32,46 @@ import Base from '../layouts/Base.astro';
 
   <section class="card facts">
     <h2>Schengen visa basics</h2>
-    <ul>
-      <li>Apply <strong>at least 15 days</strong> and <strong>no earlier than 6 months</strong> before your trip.</li>
-      <li>Stay up to <strong>90 days in any 180-day period</strong>.</li>
-      <li>Apply to the country where you’ll <strong>spend the most nights</strong>; if equal, the country you enter first.</li>
-      <li>Visa fee: <strong>€90</strong> for adults, <strong>€45</strong> for children aged 6–12, plus the visa centre’s service fee.</li>
-      <li>Decision normally in <strong>15 days</strong>, up to 45 in some cases.</li>
+    <ul class="fact-list">
+      <li><span class="num c1">15d–6m</span><span>Apply <strong>at least 15 days</strong> and <strong>no earlier than 6 months</strong> before your trip.</span></li>
+      <li><span class="num c2">90/180</span><span>Stay up to <strong>90 days in any 180-day period</strong>.</span></li>
+      <li><span class="num c3">Most nights</span><span>Apply to the country where you’ll <strong>spend the most nights</strong>; if equal, the country you enter first.</span></li>
+      <li><span class="num c4">€90</span><span>Visa fee for adults, <strong>€45</strong> for children aged 6–12, plus the visa centre’s service fee.</span></li>
+      <li><span class="num c5">15 days</span><span>Usual decision time, up to 45 in some cases.</span></li>
     </ul>
-    <p class="muted small">Source: <a href="https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en" target="_blank" rel="noopener">European Commission – Applying for a Schengen visa</a>, checked 25 Nov 2026.</p>
+    <p class="muted small-src">Source: <a href="https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en" target="_blank" rel="noopener">European Commission – Applying for a Schengen visa</a>, checked 25 Nov 2026.</p>
   </section>
 </Base>
 
 <style>
-  .hero { text-align: center; padding: 16px 0 32px; }
-  .eyebrow { display: inline-block; background: var(--accent-soft); color: var(--accent); font-weight: 650; font-size: .85rem; padding: 4px 12px; border-radius: 99px; margin: 0 0 14px; }
-  .lead { font-size: 1.12rem; color: var(--muted); max-width: 600px; margin: 0 auto 22px; }
-  .btn.big { padding: 15px 28px; font-size: 1.05rem; }
-  .small { font-size: .88rem; margin: 12px 0 0; }
+  .hero {
+    position: relative; overflow: hidden; text-align: center; color: #fff;
+    background: var(--grad); border-radius: 24px; padding: 48px 24px 40px; margin-bottom: 24px;
+    box-shadow: 0 18px 40px rgb(91 61 245 / .25);
+  }
+  .hero > *:not(.blob) { position: relative; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(8px); opacity: .35; }
+  .b1 { width: 260px; height: 260px; background: #ffd36e; top: -90px; right: -70px; }
+  .b2 { width: 220px; height: 220px; background: #40d9ff; bottom: -110px; left: -60px; }
+  .hero h1 { color: #fff; text-shadow: 0 2px 12px rgb(30 10 90 / .25); }
+  .eyebrow { display: inline-block; background: rgb(255 255 255 / .2); color: #fff; font-weight: 650; font-size: .85rem; padding: 5px 14px; border-radius: 99px; margin: 0 0 14px; border: 1px solid rgb(255 255 255 / .35); }
+  .lead { font-size: 1.12rem; color: rgb(255 255 255 / .92); max-width: 600px; margin: 0 auto 24px; }
+  .cta { display: inline-block; background: #fff; color: #4a2bd8; font-weight: 800; font-size: 1.05rem; padding: 15px 30px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgb(30 10 90 / .3); }
+  .cta:hover { transform: translateY(-2px); }
+  .cta:focus-visible { outline: 3px solid #ffd36e; outline-offset: 3px; }
+  .small { font-size: .88rem; margin: 14px 0 0; color: rgb(255 255 255 / .85); }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
-  .grid .icon { font-size: 1.7rem; display: block; margin-bottom: 6px; }
-  .grid h2 { font-size: 1.1rem; }
-  .grid p { margin: 0; }
-  .facts ul { margin: 0 0 8px; padding-left: 20px; }
-  .facts li { margin: 5px 0; }
+  .feature { border-top: 5px solid var(--c); }
+  .feature .icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--c-soft); font-size: 1.5rem; margin-bottom: 10px; }
+  .feature h2 { font-size: 1.1rem; color: var(--c); }
+  .feature p { margin: 0; }
+  .pink { --c: var(--pink); --c-soft: var(--pink-soft); }
+  .cyan { --c: var(--cyan); --c-soft: var(--cyan-soft); }
+  .amber { --c: var(--amber); --c-soft: var(--amber-soft); }
+  .facts { background: linear-gradient(180deg, var(--accent-soft), var(--surface) 70%); }
+  .fact-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 10px; }
+  .fact-list li { display: flex; gap: 12px; align-items: center; }
+  .num { flex: none; min-width: 92px; text-align: center; font-weight: 800; font-size: .85rem; padding: 6px 8px; border-radius: 10px; color: #fff; }
+  .c1 { background: #5b3df5; } .c2 { background: #c0267a; } .c3 { background: #0e7490; } .c4 { background: #c2410c; } .c5 { background: #0f8a4e; }
+  .small-src { font-size: .85rem; margin: 0; }
 </style>

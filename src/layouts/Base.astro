@@ -30,25 +30,33 @@ const pageTitle = title === 'VisaWise' ? title : `${title} · VisaWise`;
 </html>
 
 <style is:global>
+  /* Vibrant travel palette: indigo, pink, cyan, amber, green. */
   :root {
-    --bg: #f7f8f6; --surface: #ffffff; --surface-2: #f0f2ee; --text: #17201b; --muted: #5b665f;
-    --border: #dfe4dd; --accent: #1d4ed8; --accent-ink: #ffffff; --accent-soft: #dbe6fe;
-    --warn: #a16207; --warn-soft: #fdf2d3; --fail: #b42318; --fail-soft: #fde4e1; --pass: #15803d; --pass-soft: #dcf3e3;
-    --radius: 14px; --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 4px 16px rgb(0 0 0 / .04);
+    --bg: #f6f5ff; --surface: #ffffff; --surface-2: #f0eefe; --text: #17153a; --muted: #5d5a7a;
+    --border: #e2def8; --accent: #5b3df5; --accent-ink: #ffffff; --accent-soft: #ebe6ff;
+    --pink: #e8336f; --pink-soft: #ffe4ee; --cyan: #0891b2; --cyan-soft: #d9f6fd;
+    --amber: #c2410c; --amber-soft: #fff0d6; --green: #0f9d58; --green-soft: #dcf7e8;
+    --warn: #b45309; --warn-soft: #fff0d6; --fail: #d92d4b; --fail-soft: #ffe4ea; --pass: #0f9d58; --pass-soft: #dcf7e8;
+    --grad: linear-gradient(120deg, #5b3df5 0%, #b23cf0 40%, #ff4d8d 70%, #ffa53b 100%);
+    --radius: 16px; --shadow: 0 1px 2px rgb(40 20 120 / .06), 0 8px 24px rgb(40 20 120 / .07);
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0f1411; --surface: #171e19; --surface-2: #1e2721; --text: #e7ece8; --muted: #9aa69e;
-      --border: #2a352e; --accent: #7aa2ff; --accent-ink: #0a1638; --accent-soft: #1a2a52;
-      --warn: #fbbf24; --warn-soft: #3a2e0d; --fail: #f87171; --fail-soft: #3f1715; --pass: #4ade80; --pass-soft: #163b24;
+      --bg: #100e24; --surface: #1a1736; --surface-2: #231f45; --text: #f0eeff; --muted: #aaa6cf;
+      --border: #332e5e; --accent: #9b87ff; --accent-ink: #120a3a; --accent-soft: #2c2463;
+      --pink: #ff7aa8; --pink-soft: #45163a; --cyan: #4fd6f0; --cyan-soft: #0f3644; --amber: #ffb35c; --amber-soft: #42290f;
+      --green: #4ee39a; --green-soft: #0f3a29;
+      --warn: #ffb35c; --warn-soft: #42290f; --fail: #ff6f87; --fail-soft: #4a1524; --pass: #4ee39a; --pass-soft: #0f3a29;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0f1411; --surface: #171e19; --surface-2: #1e2721; --text: #e7ece8; --muted: #9aa69e;
-    --border: #2a352e; --accent: #7aa2ff; --accent-ink: #0a1638; --accent-soft: #1a2a52;
-    --warn: #fbbf24; --warn-soft: #3a2e0d; --fail: #f87171; --fail-soft: #3f1715; --pass: #4ade80; --pass-soft: #163b24;
+    --bg: #100e24; --surface: #1a1736; --surface-2: #231f45; --text: #f0eeff; --muted: #aaa6cf;
+    --border: #332e5e; --accent: #9b87ff; --accent-ink: #120a3a; --accent-soft: #2c2463;
+    --pink: #ff7aa8; --pink-soft: #45163a; --cyan: #4fd6f0; --cyan-soft: #0f3644; --amber: #ffb35c; --amber-soft: #42290f;
+    --green: #4ee39a; --green-soft: #0f3a29;
+    --warn: #ffb35c; --warn-soft: #42290f; --fail: #ff6f87; --fail-soft: #4a1524; --pass: #4ee39a; --pass-soft: #0f3a29;
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
@@ -63,21 +71,21 @@ const pageTitle = title === 'VisaWise' ? title : `${title} · VisaWise`;
   h2 { font-size: 1.35rem; }
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
   .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .site-header { border-bottom: 1px solid var(--border); background: var(--surface); }
-  .site-header .row { height: 60px; }
-  .site-header nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: .95rem; }
-  .logo { font-weight: 750; font-size: 1.15rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-  .logo .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+  .site-header { border-bottom: 1px solid var(--border); background: var(--grad) top / 100% 4px no-repeat, var(--surface); }
+  .site-header .row { height: 64px; padding-top: 4px; }
+  .site-header nav a { color: var(--accent); text-decoration: none; font-weight: 650; font-size: .95rem; background: var(--accent-soft); padding: 7px 14px; border-radius: 99px; }
+  .logo { font-weight: 800; font-size: 1.2rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+  .logo .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 0 4px var(--accent-soft); }
   main.wrap { padding-top: 32px; padding-bottom: 48px; }
   .site-footer { border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; padding: 20px 0 32px; }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
   .muted { color: var(--muted); }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer;
-    background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 650;
-    padding: 12px 20px; border-radius: 10px; text-decoration: none;
+    background: linear-gradient(110deg, #5b3df5, #c0267a); color: #fff; font: inherit; font-weight: 700;
+    padding: 12px 20px; border-radius: 12px; text-decoration: none; box-shadow: 0 6px 18px rgb(91 61 245 / .28);
   }
-  .btn:hover { filter: brightness(1.07); }
+  .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
   .btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
   .btn:disabled { opacity: .6; cursor: progress; }
   input[type=text], input[type=url], input[type=number], input[type=date], select {

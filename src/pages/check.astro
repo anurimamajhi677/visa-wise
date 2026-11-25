@@ -94,11 +94,17 @@ import { SCHENGEN_COUNTRIES } from '../lib/rules.js';
 </Base>
 
 <style>
-  .form { max-width: 720px; margin: 0 auto; }
-  .form-title { font-size: 1.6rem; margin: 4px 0 4px; }
+  .form { max-width: 720px; margin: 0 auto; border-top: 6px solid transparent; background: var(--grad) top / 100% 6px no-repeat, var(--surface); }
+  .form-title { font-size: 1.7rem; margin: 4px 0 4px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .intro { margin: 0 0 8px; }
   fieldset { border: 0; border-top: 1px solid var(--border); margin: 10px 0 0; padding: 18px 0 4px; min-width: 0; }
-  legend { font-weight: 700; font-size: 1.1rem; padding: 0; }
+  legend { font-weight: 750; font-size: 1.1rem; padding: 0; display: flex; align-items: center; gap: 8px; }
+  legend::before { content: ''; width: 12px; height: 12px; border-radius: 4px; background: var(--dot, var(--accent)); }
+  fieldset:nth-of-type(1) { --dot: #5b3df5; }
+  fieldset:nth-of-type(2) { --dot: #e8336f; }
+  fieldset:nth-of-type(3) { --dot: #0891b2; }
+  fieldset:nth-of-type(4) { --dot: #f08a24; }
+  fieldset:nth-of-type(5) { --dot: #0f9d58; }
   .hint { color: var(--muted); font-size: .9rem; margin: 2px 0 12px; }
   .two, .three { display: grid; gap: 0 16px; align-items: end; }
   .two { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
@@ -111,7 +117,10 @@ import { SCHENGEN_COUNTRIES } from '../lib/rules.js';
   .pill { cursor: pointer; }
   .pill input { position: absolute; opacity: 0; pointer-events: none; }
   .pill span { display: block; border: 1px solid var(--border); background: var(--surface); padding: 6px 12px; border-radius: 10px; font-size: .9rem; }
-  .pill input:checked + span { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+  .pill input:checked + span { font-weight: 700; }
+  .pill input[value=yes]:checked + span { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+  .pill input[value=partly]:checked + span { border-color: var(--amber); background: var(--amber-soft); color: var(--amber); }
+  .pill input[value=no]:checked + span { border-color: var(--pink); background: var(--pink-soft); color: var(--pink); }
   .pill input:focus-visible + span { outline: 3px solid var(--accent-soft); }
   .btn.big { width: 100%; padding: 15px; font-size: 1.05rem; margin-top: 14px; }
   .error { color: var(--fail); background: var(--fail-soft); padding: 10px 14px; border-radius: 10px; }
@@ -120,11 +129,19 @@ import { SCHENGEN_COUNTRIES } from '../lib/rules.js';
 <style is:global>
   .results { max-width: 720px; margin: 0 auto; display: grid; gap: 16px; }
   .top { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-  .score .big { font-size: 2.6rem; font-weight: 800; line-height: 1; margin: 6px 0; }
-  .score h3, .apply h3 { font-size: .95rem; color: var(--muted); margin: 0; font-weight: 600; }
-  .apply .country { font-size: 1.6rem; font-weight: 800; margin: 6px 0 4px; }
+  .score { background: var(--grad); color: #fff; border: 0; }
+  .score .big { font-size: 3rem; font-weight: 850; line-height: 1; margin: 6px 0; }
+  .score h3 { font-size: .95rem; color: rgb(255 255 255 / .9); margin: 0; font-weight: 650; }
+  .score p { color: #fff; font-weight: 600; }
+  .score .bar { background: rgb(255 255 255 / .3); }
+  .score .bar > i, .score .bar.warn > i, .score .bar.fail > i { background: #fff; }
+  .apply { background: linear-gradient(160deg, var(--cyan-soft), var(--surface) 75%); border-color: var(--cyan); }
+  .apply h3 { font-size: .95rem; color: var(--cyan); margin: 0; font-weight: 700; }
+  .apply .country { font-size: 1.8rem; font-weight: 850; margin: 6px 0 4px; color: var(--cyan); }
   .bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px 0; }
   .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+  .results h2 { display: flex; align-items: center; gap: 8px; }
+  .results .card > h2::before { content: ''; width: 10px; height: 22px; border-radius: 4px; background: var(--grad); }
   .bar.warn > i { background: var(--warn); } .bar.fail > i { background: var(--fail); }
   .alert { border: 1px solid var(--fail); background: var(--fail-soft); border-radius: 12px; padding: 14px 16px; }
   .alert h3 { margin: 0 0 6px; color: var(--fail); }
@@ -136,7 +153,9 @@ import { SCHENGEN_COUNTRIES } from '../lib/rules.js';
   .tl .d { font-weight: 700; font-variant-numeric: tabular-nums; }
   .tl .left { font-size: .85rem; color: var(--muted); white-space: nowrap; }
   .tl li.past { opacity: .55; }
-  .tl li.next { background: var(--accent-soft); margin: 0 -10px; padding: 9px 10px; border-radius: 8px; }
+  .tl li.next { background: var(--accent-soft); margin: 0 -10px; padding: 9px 10px; border-radius: 10px; box-shadow: inset 4px 0 0 var(--accent); }
+  .tl li.next .d, .tl li.next .left { color: var(--accent); font-weight: 750; }
+  .tl .d { color: var(--pink); }
   .fix-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
   .fix { border: 1px solid var(--border); border-left: 5px solid var(--fail); border-radius: 12px; padding: 12px 14px; }
   .fix.warn { border-left-color: var(--warn); }
