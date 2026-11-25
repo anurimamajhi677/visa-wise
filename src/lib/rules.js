@@ -15,7 +15,7 @@ export const SOURCES = {
     name: 'Your destination’s visa centre checklist (VFS Global / BLS India)',
     url: 'https://visa.vfsglobal.com/ind/en',
   },
-  guideline: { name: 'VisaReady guideline (not an official rule)', url: '' },
+  guideline: { name: 'VisaWise guideline (not an official rule)', url: '' },
 };
 
 export const RULES = {

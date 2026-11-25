@@ -127,7 +127,7 @@ function render(input, r, prev) {
 // ---------- Page ----------
 export function initVisaCheck() {
   const form = $('#visa-form');
-  fill(form, store.get('vr:last'));
+  fill(form, store.get('vw:last'));
   showDocsFor(form);
   form.elements.employment.addEventListener('change', () => showDocsFor(form));
 
@@ -140,11 +140,11 @@ export function initVisaCheck() {
     if (missing.length) { err.textContent = `Please add ${missing.join(', ')}.`; err.hidden = false; return; }
 
     const r = analyze(input);
-    const hist = store.get('vr:hist') || [];
+    const hist = store.get('vw:hist') || [];
     const prev = hist.at(-1);
     hist.push({ at: r.checkedAt, readiness: r.readiness });
-    store.set('vr:hist', hist.slice(-30));
-    store.set('vr:last', input);
+    store.set('vw:hist', hist.slice(-30));
+    store.set('vw:last', input);
     render(input, r, prev);
     $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });

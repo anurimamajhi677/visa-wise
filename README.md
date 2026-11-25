@@ -1,4 +1,4 @@
-# VisaReady
+# VisaWise
 
 Free Schengen tourist visa readiness check for Indian passport holders.
 Answer questions about your trip, passport, money and documents and get:
@@ -26,7 +26,7 @@ All rules live in `src/lib/rules.js`, each with its source:
 | Passport issued within 10 years, 2 blank pages | EU Visa Code Art. 12 | **verify before launch** |
 | Insurance at least €30,000 | EU Visa Code Art. 15 | **verify before launch** |
 | Bank statements 3 months, salary slips 3 months, ITR 2 years, leave letter | Visa centre checklists (India) | typical; varies by country |
-| Book appointment 60 days ahead, funds 1.5× trip cost | VisaReady guideline | not official |
+| Book appointment 60 days ahead, funds 1.5× trip cost | VisaWise guideline | not official |
 
 ## Commands
 
